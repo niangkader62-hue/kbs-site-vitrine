@@ -1,0 +1,9 @@
+# Outillage de design (Taste Skill) — non nécessaire au site déployé
+.agents/
+.claude/
+skills-lock.json
+
+# Système
+.DS_Store
+Thumbs.db
+node_modules/

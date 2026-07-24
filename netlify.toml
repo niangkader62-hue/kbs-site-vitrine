@@ -1,0 +1,24 @@
+# Configuration Netlify — KBS Digital Agency
+# Site statique : aucun build nécessaire, le dossier racine est publié tel quel.
+
+[build]
+  publish = "."
+  command = ""
+
+# En-têtes de sécurité et de cache
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
