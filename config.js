@@ -43,12 +43,14 @@ const KBS_CONFIG = {
   },
 
   /* ---------------------------------------------------------------
-     3. LIENS DE PAIEMENT AUTOMATISÉ
-     Remplacez ces URL par vos vraies pages Systeme.io / Chariow.
+     3. LIENS DE PAIEMENT AUTOMATISÉ (par catégorie)
+     - Formations  → Systeme.io
+     - Prestations & Packs → Chariow
   --------------------------------------------------------------- */
   payment: {
-    // Lien générique par défaut (à personnaliser produit par produit si besoin)
-    automatedBaseUrl: "https://systeme.io/",
+    formationsUrl: "https://niangkader62.systeme.io/8c6337b3",
+    prestationsUrl: "https://djpacpqs.mychariow.shop",
+    packsUrl: "https://djpacpqs.mychariow.shop",
     // Message WhatsApp pré-rempli (le nom du produit est injecté dynamiquement)
     whatsappTemplate:
       "Bonjour KBS Digital Agency 👋, je suis intéressé(e) par : {PRODUCT}. Pouvez-vous me donner plus d'informations ?",
@@ -80,106 +82,116 @@ const KBS_CONFIG = {
 
   /* ---------------------------------------------------------------
      5. FORMATIONS (Tarifs : En ligne / Présentiel)
+     Paiement automatisé → payment.formationsUrl (Systeme.io)
   --------------------------------------------------------------- */
   formations: [
     { title: "Alibaba", desc: "Sourcing produits & import depuis la Chine.", online: 10000, presentiel: 20000 },
     { title: "E-commerce", desc: "Lancer et scaler une boutique en ligne rentable.", online: 20000, presentiel: 35000 },
     { title: "Intelligence Artificielle", desc: "Maîtriser l'IA pour booster votre productivité.", online: 20000, presentiel: 35000 },
-    { title: "Montage CapCut", desc: "Montage vidéo pro pour réseaux sociaux.", online: 15000, presentiel: 25000 },
-    { title: "Campagne Meta / TikTok", desc: "Publicités rentables sur Facebook, Instagram & TikTok.", online: 25000, presentiel: 35000 },
-    { title: "Closing", desc: "L'art de vendre et convertir par téléphone.", online: 15000, presentiel: 25000 },
-    { title: "Monétisation TikTok", desc: "Générer des revenus grâce à TikTok.", online: 15000, presentiel: 25000 },
+    { title: "Montage vidéo CapCut", desc: "Montage vidéo pro pour réseaux sociaux.", online: 15000, presentiel: 25000 },
+    { title: "Campagne publicitaire Meta/TikTok", desc: "Publicités rentables sur Facebook, Instagram & TikTok.", online: 25000, presentiel: 35000 },
+    { title: "Formation au Closing", desc: "L'art de vendre et convertir par téléphone.", online: 15000, presentiel: 25000 },
+    { title: "Monétisation TikTok + Boost", desc: "Générer des revenus et booster votre compte TikTok.", online: 15000, presentiel: 25000 },
     { title: "Monétisation YouTube", desc: "Créer et monétiser une chaîne YouTube.", online: 10000, presentiel: 20000 },
-    { title: "Création de Contenu", desc: "Produire du contenu viral et engageant.", online: 15000, presentiel: 30000 },
+    { title: "Création de contenu", desc: "Produire du contenu viral et engageant.", online: 15000, presentiel: 30000 },
   ],
 
   /* ---------------------------------------------------------------
-     6. PRESTATIONS TECHNIQUES (à la carte)
+     6. PRESTATIONS TECHNIQUES & CRÉATIVES (à la carte)
+     Paiement automatisé → payment.prestationsUrl (Chariow)
   --------------------------------------------------------------- */
   prestations: [
     {
-      title: "Page de Vente",
+      title: "Page de vente",
       description: "Landing page haute conversion, optimisée pour transformer vos visiteurs en clients.",
-      price: 50000,
-      unit: "à partir de",
+      price: 25000,
+      unit: "forfait",
       icon: "target",
     },
     {
-      title: "Site Web Vitrine",
+      title: "Site web dynamique",
       description: "Site professionnel, rapide et responsive qui incarne votre marque.",
       price: 100000,
-      unit: "à partir de",
+      unit: "forfait",
       icon: "globe",
     },
     {
       title: "Community Management",
       description: "Gestion complète de vos réseaux sociaux : contenu, animation et croissance.",
-      price: 75000,
+      price: 100000,
       unit: "par mois",
       icon: "chat",
     },
     {
-      title: "Développement SaaS",
+      title: "SaaS / Application",
       description: "Application web sur-mesure pensée pour automatiser et digitaliser votre activité.",
-      price: 250000,
-      unit: "sur devis",
+      price: 300000,
+      unit: "à partir de",
       icon: "cube",
     },
   ],
 
   /* ---------------------------------------------------------------
-     7. LES 7 PACKS STRATÉGIQUES
-     Tarifs indicatifs — ajustez selon votre grille commerciale.
+     7. LES 7 PACKS STRATÉGIQUES (Tarifs : En ligne / Présentiel)
+     Paiement automatisé → payment.packsUrl (Chariow)
+     Le Pack 7 est proposé sur devis (tarif unique).
   --------------------------------------------------------------- */
   packs: [
     {
-      name: "Pack Starter",
-      tagline: "Lancez votre présence en ligne",
-      price: 75000,
+      name: "Pack 1 — Formation + Vente",
+      tagline: "Apprenez et vendez immédiatement",
+      online: 45000,
+      presentiel: 80000,
       featured: false,
-      features: ["Page de vente 1 produit", "Configuration réseaux sociaux", "1 visuel de marque", "Support 7 jours"],
+      features: ["1 formation au choix", "Page de vente offerte", "Configuration du tunnel de vente", "Accompagnement au lancement"],
     },
     {
-      name: "Pack Business",
-      tagline: "Structurez votre activité",
-      price: 150000,
+      name: "Pack 2 — Lancement Produit",
+      tagline: "Lancez votre produit avec impact",
+      online: 50000,
+      presentiel: 85000,
       featured: false,
-      features: ["Site web vitrine (5 pages)", "Page de vente optimisée", "Pack 5 visuels", "SEO de base", "Support 14 jours"],
+      features: ["Page de vente optimisée", "Pack visuels de lancement", "Campagne de teasing", "Stratégie de lancement"],
     },
     {
-      name: "Pack Growth",
-      tagline: "Accélérez votre croissance",
-      price: 250000,
+      name: "Pack 3 — Visibilité Mensuel",
+      tagline: "Restez visible tout le mois",
+      online: 140000,
+      presentiel: 160000,
+      featured: false,
+      features: ["Community management 1 mois", "Calendrier éditorial", "Création de contenus", "Rapport de performance"],
+    },
+    {
+      name: "Pack 4 — Présence Pro",
+      tagline: "Une présence digitale complète",
+      online: 170000,
+      presentiel: 190000,
       featured: true,
-      features: ["Site web professionnel", "Community management 1 mois", "Campagne publicitaire Meta/TikTok", "10 visuels premium", "Support prioritaire 30 jours"],
+      features: ["Site web dynamique", "Identité visuelle", "Référencement de base", "Réseaux sociaux configurés"],
     },
     {
-      name: "Pack E-commerce",
-      tagline: "Vendez en ligne 24h/24",
-      price: 300000,
+      name: "Pack 5 — Conversion & Ventes",
+      tagline: "Transformez vos prospects en clients",
+      online: 65000,
+      presentiel: 80000,
       featured: false,
-      features: ["Boutique en ligne complète", "Intégration paiement", "Formation gestion boutique", "Campagne de lancement", "Support 30 jours"],
+      features: ["Formation au Closing", "Scripts de vente", "Optimisation du tunnel", "Suivi des conversions"],
     },
     {
-      name: "Pack Formation Pro",
-      tagline: "Montez en compétences",
-      price: 100000,
+      name: "Pack 6 — IA & Automatisation",
+      tagline: "Gagnez du temps grâce à l'IA",
+      online: 70000,
+      presentiel: 95000,
       featured: false,
-      features: ["3 formations au choix", "Accès présentiel & en ligne", "Certificat de participation", "Groupe privé d'entraide"],
+      features: ["Formation Intelligence Artificielle", "Automatisation des tâches", "Assistant / chatbot", "Gain de productivité"],
     },
     {
-      name: "Pack SaaS Sur-Mesure",
-      tagline: "Digitalisez votre métier",
-      price: 500000,
+      name: "Pack 7 — Tech / Projet Avancé",
+      tagline: "Votre projet sur-mesure",
+      online: 350000,
+      devis: true,
       featured: false,
-      features: ["Application web personnalisée", "Cahier des charges complet", "Hébergement 1 an", "Formation à l'outil", "Maintenance 3 mois"],
-    },
-    {
-      name: "Pack Élite 360°",
-      tagline: "L'accompagnement total",
-      price: 1000000,
-      featured: false,
-      features: ["Stratégie digitale complète", "Site + SaaS + E-commerce", "Community management 3 mois", "Campagnes publicitaires", "Accompagnement VIP illimité"],
+      features: ["Application / SaaS sur-mesure", "Cahier des charges complet", "Développement & déploiement", "Maintenance incluse"],
     },
   ],
 

@@ -22,9 +22,9 @@
   const modalPay = $("#modalPay");
   const modalWa = $("#modalWhatsapp");
 
-  function openBuyModal(productName) {
+  function openBuyModal(productName, payUrl) {
     modalProduct.textContent = productName;
-    modalPay.href = CFG.payment.automatedBaseUrl;
+    modalPay.href = payUrl || CFG.payment.prestationsUrl;
 
     // Génère un bouton WhatsApp par numéro de l'agence
     const msg = encodeURIComponent(
@@ -63,12 +63,13 @@
     const trigger = e.target.closest("[data-buy]");
     if (trigger) {
       e.preventDefault();
-      openBuyModal(trigger.getAttribute("data-buy"));
+      openBuyModal(trigger.getAttribute("data-buy"), trigger.getAttribute("data-pay"));
     }
   });
 
-  const buyBtn = (label, product) =>
-    `<button class="btn btn-primary btn-block" data-buy="${product}">${label}</button>`;
+  // label, nom du produit (message WhatsApp), et URL de paiement automatisé de la catégorie
+  const buyBtn = (label, product, payUrl) =>
+    `<button class="btn btn-primary btn-block" data-buy="${product}" data-pay="${payUrl}">${label}</button>`;
 
   /* ------------------------------------------------------------
      RENDU : HERO STATS
@@ -120,7 +121,7 @@
             <span class="p-val">${fmt(f.presentiel)}</span>
           </div>
         </div>
-        ${buyBtn("S'inscrire", "Formation " + f.title)}
+        ${buyBtn("S'inscrire", "Formation " + f.title, CFG.payment.formationsUrl)}
       </article>`
     )
     .join("");
@@ -143,7 +144,7 @@
         <p class="card-desc">${p.description}</p>
         <div class="prestation-price">${fmt(p.price)} <span style="font-size:.8rem;color:var(--text-dim)">${cur}</span></div>
         <div class="prestation-unit">${p.unit}</div>
-        ${buyBtn("Commander", "Prestation : " + p.title)}
+        ${buyBtn("Commander", "Prestation : " + p.title, CFG.payment.prestationsUrl)}
       </article>`
     )
     .join("");
@@ -156,16 +157,30 @@
       const feats = pack.features
         .map((f) => `<li><span class="check">✓</span> ${f}</li>`)
         .join("");
+      // Pack sur devis : tarif unique ; sinon double prix En ligne / Présentiel
+      const priceBlock = pack.devis
+        ? `<div class="pack-price">
+             <span class="amount">${fmt(pack.online)}</span><span class="cur">${cur}</span>
+             <div class="prestation-unit" style="margin-top:6px">sur devis</div>
+           </div>`
+        : `<div class="formation-prices">
+             <div class="price-pill">
+               <span class="p-label">En ligne</span>
+               <span class="p-val">${fmt(pack.online)}</span>
+             </div>
+             <div class="price-pill presentiel">
+               <span class="p-label">Présentiel</span>
+               <span class="p-val">${fmt(pack.presentiel)}</span>
+             </div>
+           </div>`;
       return `
       <article class="card pack-card tilt ${pack.featured ? "featured" : ""}">
         ${pack.featured ? '<span class="pack-badge">Populaire</span>' : ""}
         <h3 class="pack-name">${pack.name}</h3>
         <p class="pack-tagline">${pack.tagline}</p>
-        <div class="pack-price">
-          <span class="amount">${fmt(pack.price)}</span><span class="cur">${cur}</span>
-        </div>
+        ${priceBlock}
         <ul class="pack-features">${feats}</ul>
-        ${buyBtn("Choisir ce pack", pack.name)}
+        ${buyBtn("Choisir ce pack", pack.name, CFG.payment.packsUrl)}
       </article>`;
     })
     .join("");
