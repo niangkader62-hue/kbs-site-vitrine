@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KBS Digital Agency — Agence digitale, SaaS & Formations à l'ère de l'IA</title>
+  <meta name="description" content="KBS Digital Agency : solutions logicielles sur-mesure, formations d'élite et prestations digitales haut de gamme pour entrepreneurs ambitieux." />
+  <meta name="theme-color" content="#05070d" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="KBS Digital Agency" />
+  <meta property="og:description" content="L'agence digitale qui propulse votre business à l'ère de l'IA." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts : Poppins (display) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Grain / glow overlay fixe -->
+  <div class="bg-aurora" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="nav-wrap" id="navWrap">
+    <nav class="nav glass" aria-label="Navigation principale">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-mark">KBS</span>
+        <span class="logo-text">Digital Agency</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#apps">Solutions</a></li>
+        <li><a href="#formations">Formations</a></li>
+        <li><a href="#prestations">Prestations</a></li>
+        <li><a href="#packs">Packs</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn btn-primary nav-cta">
+        Démarrer
+        <span class="btn-icon">↗</span>
+      </a>
+      <button class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Menu mobile plein écran -->
+  <div class="mobile-menu glass-strong" id="mobileMenu" aria-hidden="true">
+    <a href="#apps">Solutions</a>
+    <a href="#formations">Formations</a>
+    <a href="#prestations">Prestations</a>
+    <a href="#packs">Packs</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero">
+      <div class="container hero-inner">
+        <span class="eyebrow reveal">● Agence digitale nouvelle génération</span>
+        <h1 class="hero-title reveal">
+          Propulsez votre business<br />
+          à l'ère de <span class="grad">l'Intelligence Artificielle</span>
+        </h1>
+        <p class="hero-sub reveal">
+          SaaS sur-mesure, formations d'élite et prestations digitales haut de gamme.
+          KBS Digital Agency transforme vos ambitions en résultats concrets.
+        </p>
+        <div class="hero-cta reveal">
+          <a href="#packs" class="btn btn-primary btn-lg">
+            Découvrir nos packs
+            <span class="btn-icon">↗</span>
+          </a>
+          <a href="#apps" class="btn btn-ghost btn-lg">Voir nos SaaS</a>
+        </div>
+        <ul class="hero-stats reveal" id="heroStats"></ul>
+      </div>
+    </section>
+
+    <!-- ===================== APPS / SOLUTIONS ===================== -->
+    <section class="section" id="apps">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Solutions Logicielles</h2>
+          <p class="section-desc">
+            Des applications web en production, pensées pour digitaliser et automatiser
+            les métiers du quotidien.
+          </p>
+        </div>
+        <div class="apps-grid" id="appsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===================== FORMATIONS ===================== -->
+    <section class="section" id="formations">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Formations d'Élite</h2>
+          <p class="section-desc">
+            Montez en compétences avec des formations concrètes, disponibles en ligne
+            ou en présentiel.
+          </p>
+        </div>
+        <div class="formations-grid" id="formationsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===================== PRESTATIONS ===================== -->
+    <section class="section" id="prestations">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Prestations à la Carte</h2>
+          <p class="section-desc">
+            Des services techniques premium pour construire, promouvoir et faire grandir
+            votre présence digitale.
+          </p>
+        </div>
+        <div class="prestations-grid" id="prestationsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===================== PACKS ===================== -->
+    <section class="section" id="packs">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">7 Packs Stratégiques</h2>
+          <p class="section-desc">
+            Des formules clés en main pensées pour chaque étape de votre croissance.
+            Choisissez le vôtre.
+          </p>
+        </div>
+        <div class="packs-grid" id="packsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT / CTA ===================== -->
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        <div class="contact-card glass-strong tilt">
+          <h2 class="section-title">Prêt à passer à l'action&nbsp;?</h2>
+          <p class="section-desc center">
+            Discutons de votre projet dès aujourd'hui. Réponse rapide garantie sur WhatsApp.
+          </p>
+          <div class="contact-actions" id="contactActions"></div>
+          <p class="contact-email">
+            Ou écrivez-nous : <a href="" id="contactEmailLink"></a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-mark big">KBS</span>
+        <p class="footer-baseline" id="footerBaseline"></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul id="footerPhones"></ul>
+          <ul><li><a href="" id="footerEmail"></a></li></ul>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#apps">Solutions</a></li>
+            <li><a href="#formations">Formations</a></li>
+            <li><a href="#prestations">Prestations</a></li>
+            <li><a href="#packs">Packs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Suivez-nous</h4>
+          <ul class="footer-socials" id="footerSocials"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span id="footerCopy"></span>
+    </div>
+  </footer>
+
+  <!-- ===================== MODALE D'ACHAT ===================== -->
+  <div class="modal-overlay" id="buyModal" aria-hidden="true">
+    <div class="modal glass-strong" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Fermer">×</button>
+      <h3 class="modal-title" id="modalTitle">Choisissez votre mode</h3>
+      <p class="modal-product" id="modalProduct"></p>
+      <div class="modal-actions">
+        <a href="" class="btn btn-primary btn-block" id="modalPay" target="_blank" rel="noopener">
+          💳 Paiement automatisé
+          <span class="btn-sub">Systeme.io / Chariow</span>
+        </a>
+        <div class="modal-wa" id="modalWhatsapp"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

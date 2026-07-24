@@ -1,0 +1,280 @@
+/* =====================================================================
+   KBS DIGITAL AGENCY — LOGIQUE FRONT-END
+   Rendu dynamique depuis config.js · Tilt 3D · Hover reveal ·
+   Modale d'achat (Paiement / WhatsApp) · Scroll reveal
+   ===================================================================== */
+
+(function () {
+  "use strict";
+
+  const CFG = window.KBS_CONFIG;
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+
+  const fmt = (n) => new Intl.NumberFormat("fr-FR").format(n);
+  const cur = CFG.brand.currency;
+
+  /* ------------------------------------------------------------
+     MODALE D'ACHAT
+  ------------------------------------------------------------ */
+  const modal = $("#buyModal");
+  const modalProduct = $("#modalProduct");
+  const modalPay = $("#modalPay");
+  const modalWa = $("#modalWhatsapp");
+
+  function openBuyModal(productName) {
+    modalProduct.textContent = productName;
+    modalPay.href = CFG.payment.automatedBaseUrl;
+
+    // Génère un bouton WhatsApp par numéro de l'agence
+    const msg = encodeURIComponent(
+      CFG.payment.whatsappTemplate.replace("{PRODUCT}", productName)
+    );
+    modalWa.innerHTML = CFG.contact.phones
+      .map(
+        (p) =>
+          `<a class="wa-btn" href="https://wa.me/${p.wa}?text=${msg}" target="_blank" rel="noopener">
+             <span>💬</span> WhatsApp · ${p.label}
+           </a>`
+      )
+      .join("");
+
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeBuyModal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  $("#modalClose").addEventListener("click", closeBuyModal);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeBuyModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeBuyModal();
+  });
+
+  // Délégation : tout élément [data-buy] ouvre la modale
+  document.addEventListener("click", (e) => {
+    const trigger = e.target.closest("[data-buy]");
+    if (trigger) {
+      e.preventDefault();
+      openBuyModal(trigger.getAttribute("data-buy"));
+    }
+  });
+
+  const buyBtn = (label, product) =>
+    `<button class="btn btn-primary btn-block" data-buy="${product}">${label}</button>`;
+
+  /* ------------------------------------------------------------
+     RENDU : HERO STATS
+  ------------------------------------------------------------ */
+  $("#heroStats").innerHTML = CFG.stats
+    .map(
+      (s) =>
+        `<li><span class="stat-value">${s.value}</span><span class="stat-label">${s.label}</span></li>`
+    )
+    .join("");
+
+  /* ------------------------------------------------------------
+     RENDU : APPS / SOLUTIONS
+  ------------------------------------------------------------ */
+  $("#appsGrid").innerHTML = CFG.apps
+    .map((app) => {
+      const glyph = app.title.charAt(0);
+      const tags = app.features.map((f) => `<span class="card-tag">${f}</span>`).join("");
+      return `
+      <article class="card app-card tilt">
+        <div class="app-visual"><span class="glyph">${glyph}</span></div>
+        <span class="card-cat">${app.category}</span>
+        <h3 class="card-title">${app.title}</h3>
+        <p class="card-desc">${app.description}</p>
+        <div class="card-tags">${tags}</div>
+        <a class="app-link" href="${app.url}" target="_blank" rel="noopener">
+          Découvrir l'application <span class="arrow">→</span>
+        </a>
+      </article>`;
+    })
+    .join("");
+
+  /* ------------------------------------------------------------
+     RENDU : FORMATIONS
+  ------------------------------------------------------------ */
+  $("#formationsGrid").innerHTML = CFG.formations
+    .map(
+      (f) => `
+      <article class="card formation-card tilt">
+        <h3 class="card-title">${f.title}</h3>
+        <p class="card-desc">${f.desc}</p>
+        <div class="formation-prices">
+          <div class="price-pill">
+            <span class="p-label">En ligne</span>
+            <span class="p-val">${fmt(f.online)}</span>
+          </div>
+          <div class="price-pill presentiel">
+            <span class="p-label">Présentiel</span>
+            <span class="p-val">${fmt(f.presentiel)}</span>
+          </div>
+        </div>
+        ${buyBtn("S'inscrire", "Formation " + f.title)}
+      </article>`
+    )
+    .join("");
+
+  /* ------------------------------------------------------------
+     RENDU : PRESTATIONS
+  ------------------------------------------------------------ */
+  const icons = {
+    target: "🎯",
+    globe: "🌐",
+    chat: "💬",
+    cube: "🧊",
+  };
+  $("#prestationsGrid").innerHTML = CFG.prestations
+    .map(
+      (p) => `
+      <article class="card prestation-card tilt">
+        <div class="prestation-icon">${icons[p.icon] || "✦"}</div>
+        <h3 class="card-title">${p.title}</h3>
+        <p class="card-desc">${p.description}</p>
+        <div class="prestation-price">${fmt(p.price)} <span style="font-size:.8rem;color:var(--text-dim)">${cur}</span></div>
+        <div class="prestation-unit">${p.unit}</div>
+        ${buyBtn("Commander", "Prestation : " + p.title)}
+      </article>`
+    )
+    .join("");
+
+  /* ------------------------------------------------------------
+     RENDU : PACKS
+  ------------------------------------------------------------ */
+  $("#packsGrid").innerHTML = CFG.packs
+    .map((pack) => {
+      const feats = pack.features
+        .map((f) => `<li><span class="check">✓</span> ${f}</li>`)
+        .join("");
+      return `
+      <article class="card pack-card tilt ${pack.featured ? "featured" : ""}">
+        ${pack.featured ? '<span class="pack-badge">Populaire</span>' : ""}
+        <h3 class="pack-name">${pack.name}</h3>
+        <p class="pack-tagline">${pack.tagline}</p>
+        <div class="pack-price">
+          <span class="amount">${fmt(pack.price)}</span><span class="cur">${cur}</span>
+        </div>
+        <ul class="pack-features">${feats}</ul>
+        ${buyBtn("Choisir ce pack", pack.name)}
+      </article>`;
+    })
+    .join("");
+
+  /* ------------------------------------------------------------
+     RENDU : CONTACT
+  ------------------------------------------------------------ */
+  const genMsg = encodeURIComponent(
+    CFG.payment.whatsappTemplate.replace("{PRODUCT}", "votre accompagnement digital")
+  );
+  $("#contactActions").innerHTML = CFG.contact.phones
+    .map(
+      (p) =>
+        `<a class="btn btn-primary btn-lg" href="https://wa.me/${p.wa}?text=${genMsg}" target="_blank" rel="noopener">
+           💬 WhatsApp ${p.label}
+         </a>`
+    )
+    .join("");
+  const emailLink = $("#contactEmailLink");
+  emailLink.textContent = CFG.contact.email;
+  emailLink.href = "mailto:" + CFG.contact.email;
+
+  /* ------------------------------------------------------------
+     RENDU : FOOTER
+  ------------------------------------------------------------ */
+  $("#footerBaseline").textContent = CFG.brand.baseline;
+  $("#footerPhones").innerHTML = CFG.contact.phones
+    .map((p) => `<li><a href="https://wa.me/${p.wa}" target="_blank" rel="noopener">${p.label}</a></li>`)
+    .join("");
+  const fe = $("#footerEmail");
+  fe.textContent = CFG.contact.email;
+  fe.href = "mailto:" + CFG.contact.email;
+
+  const socialIcons = {
+    tiktok: "🎵",
+    facebook: "f",
+  };
+  $("#footerSocials").innerHTML = CFG.contact.socials
+    .map(
+      (s) =>
+        `<li><a href="${s.url}" target="_blank" rel="noopener">
+           <span class="social-dot">${socialIcons[s.icon] || "◆"}</span> ${s.name}
+         </a></li>`
+    )
+    .join("");
+  $("#footerCopy").textContent = `© ${new Date().getFullYear()} ${CFG.brand.name}. Tous droits réservés.`;
+
+  /* ------------------------------------------------------------
+     NAVBAR : scroll + menu mobile
+  ------------------------------------------------------------ */
+  const navWrap = $("#navWrap");
+  window.addEventListener(
+    "scroll",
+    () => navWrap.classList.toggle("scrolled", window.scrollY > 30),
+    { passive: true }
+  );
+
+  const burger = $("#navBurger");
+  const mobileMenu = $("#mobileMenu");
+  const toggleMenu = (open) => {
+    burger.classList.toggle("open", open);
+    mobileMenu.classList.toggle("open", open);
+    burger.setAttribute("aria-expanded", String(open));
+    mobileMenu.setAttribute("aria-hidden", String(!open));
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+  burger.addEventListener("click", () => toggleMenu(!mobileMenu.classList.contains("open")));
+  $$("#mobileMenu a").forEach((a) => a.addEventListener("click", () => toggleMenu(false)));
+
+  /* ------------------------------------------------------------
+     SCROLL REVEAL (IntersectionObserver)
+  ------------------------------------------------------------ */
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+  $$(".reveal, .card").forEach((el, i) => {
+    el.style.setProperty("--i", i % 8);
+    io.observe(el);
+  });
+
+  /* ------------------------------------------------------------
+     TILT 3D + HOVER REVEAL (halo qui suit la souris)
+     Désactivé sur écrans tactiles / mobile.
+  ------------------------------------------------------------ */
+  const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+  if (isFinePointer) {
+    $$(".tilt").forEach((card) => {
+      card.addEventListener("mousemove", (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        const rotX = (0.5 - py) * 8; // inclinaison verticale
+        const rotY = (px - 0.5) * 8; // inclinaison horizontale
+        card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
+        // Position du halo (hover reveal)
+        card.style.setProperty("--mx", px * 100 + "%");
+        card.style.setProperty("--my", py * 100 + "%");
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "";
+      });
+    });
+  }
+})();
