@@ -16,8 +16,11 @@
 
   /* ------------------------------------------------------------
      PROMO : calcul du prix réduit + affichage barré/nouveau prix
+     (la promo s'éteint automatiquement après la date de fin)
   ------------------------------------------------------------ */
-  const promoActive = !!(CFG.promo && CFG.promo.active);
+  const promoNotExpired =
+    !CFG.promo || !CFG.promo.endDate || new Date() < new Date(CFG.promo.endDate);
+  const promoActive = !!(CFG.promo && CFG.promo.active && promoNotExpired);
   const promoPct = promoActive ? CFG.promo.percent : 0;
   const discounted = (price) => Math.round((price * (100 - promoPct)) / 100);
   const priceHTML = (price) =>
@@ -27,6 +30,46 @@
   const promoBadge = promoActive
     ? `<span class="promo-badge">${CFG.promo.label}</span>`
     : "";
+
+  /* ------------------------------------------------------------
+     BANDEAU PROMO + COMPTE A REBOURS
+     (base sur le temps -> fonctionne aussi bien au doigt qu'a la souris)
+  ------------------------------------------------------------ */
+  const promoBanner = $("#promoBanner");
+  if (promoBanner && promoActive && CFG.promo.endDate) {
+    const endTime = new Date(CFG.promo.endDate).getTime();
+    promoBanner.innerHTML = `
+      <span class="promo-banner-text">🔥 Offre de lancement <strong>${CFG.promo.label}</strong> sur tous nos services</span>
+      <span class="promo-banner-count" id="promoCountdown"></span>`;
+    promoBanner.classList.add("visible");
+    const countdownEl = $("#promoCountdown");
+
+    function tickCountdown() {
+      const now = Date.now();
+      const diff = endTime - now;
+      if (diff <= 0) {
+        promoBanner.classList.remove("visible");
+        clearInterval(timer);
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      countdownEl.textContent = `${d}j ${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m ${String(s).padStart(2, "0")}s`;
+    }
+    tickCountdown();
+    const timer = setInterval(tickCountdown, 1000);
+
+    function syncBannerOffset() {
+      const h = promoBanner.classList.contains("visible") ? promoBanner.offsetHeight : 0;
+      document.documentElement.style.setProperty("--banner-h", h + "px");
+    }
+    syncBannerOffset();
+    window.addEventListener("resize", syncBannerOffset);
+  } else if (promoBanner) {
+    promoBanner.remove();
+  }
 
   /* ------------------------------------------------------------
      MODALE D'ACHAT
@@ -100,7 +143,7 @@
   ------------------------------------------------------------ */
   $("#appsGrid").innerHTML = CFG.apps
     .map((app) => {
-      const glyph = app.title.charAt(0);
+      const glyph = app.icon || app.title.charAt(0);
       const tags = app.features.map((f) => `<span class="card-tag">${f}</span>`).join("");
       return `
       <article class="card app-card tilt">
