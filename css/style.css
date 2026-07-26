@@ -415,6 +415,61 @@ img { max-width: 100%; display: block; }
 .app-link .arrow { transition: transform 0.4s var(--ease); }
 .app-card:hover .app-link .arrow { transform: translateX(4px); }
 
+/* ---------- EQUIPE GRID ---------- */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 920px;
+  margin: 0 auto;
+}
+@media (max-width: 760px) {
+  .team-grid { grid-template-columns: 1fr; max-width: 420px; }
+}
+.team-card { text-align: center; padding: 30px 24px; }
+.team-photo-wrap {
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+  overflow: hidden;
+  border: 3px solid var(--terra-soft);
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--terra-soft), var(--bg-soft));
+}
+.team-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.team-avatar-initial {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-size: 2.2rem;
+  color: var(--terra);
+}
+.team-name { font-size: 1.12rem; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.02em; }
+.team-role {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--terra);
+  font-weight: 600;
+  margin-bottom: 16px;
+  min-height: 28px;
+}
+.team-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  border: 1px solid var(--hairline-soft);
+  transition: all 0.3s var(--ease);
+}
+.team-contact:hover { background: var(--terra-soft); color: var(--terra-deep); }
+
 /* ---------- FORMATIONS GRID ---------- */
 .formations-grid {
   display: grid;
@@ -483,6 +538,41 @@ img { max-width: 100%; display: block; }
 .pack-price .cur { font-size: 0.9rem; color: var(--text-dim); margin-left: 4px; }
 .pack-features { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; flex-grow: 1; }
 .pack-features li { display: flex; gap: 10px; font-size: 0.9rem; color: var(--text-dim); }
+
+/* ---------- PROMO : badge + prix barre / nouveau prix ---------- */
+.promo-badge {
+  position: absolute;
+  top: 20px; left: 20px;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: var(--text);
+  color: #fff;
+  font-weight: 700;
+  z-index: 2;
+}
+.price-old {
+  display: block;
+  font-size: 0.78em;
+  color: var(--text-faint);
+  text-decoration: line-through;
+  font-weight: 500;
+}
+.price-new { display: block; }
+/* Cas Prestations / Packs sur devis : prix en ligne, pas empile */
+.prestation-price .price-old,
+.pack-price .amount .price-old {
+  display: inline;
+  margin-right: 8px;
+}
+.prestation-price .price-new,
+.pack-price .amount .price-new {
+  display: inline;
+  color: var(--terra);
+}
+.pack-price .amount .price-new { color: var(--text); }
 .pack-features li .check { color: var(--terra); font-weight: 700; flex-shrink: 0; }
 
 /* ---------- CONTACT SECTION ---------- */
