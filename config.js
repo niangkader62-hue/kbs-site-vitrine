@@ -66,7 +66,8 @@ const KBS_CONFIG = {
       description:
         "Digitalisez vos tontines : suivi des cotisations, tours de bénéficiaires, rappels automatiques et transparence totale pour tous les membres.",
       features: ["Suivi des cotisations", "Rappels automatiques", "Tableau de bord clair"],
-      url: "https://endearing-alpaca-99bd6a.netlify.app/",
+      url: "https://haby-tontine.pages.dev/",
+      icon: "🤝",
       accent: "cyan",
     },
     {
@@ -75,7 +76,8 @@ const KBS_CONFIG = {
       description:
         "Pilotez votre entreprise depuis une seule interface : stocks, ventes, clients, factures et statistiques en temps réel.",
       features: ["Stocks & ventes", "Facturation", "Statistiques en temps réel"],
-      url: "https://kbsauto-io.netlify.app/",
+      url: "https://kbsauto-io.pages.dev/",
+      icon: "📊",
       accent: "blue",
     },
   ],
@@ -85,8 +87,9 @@ const KBS_CONFIG = {
   --------------------------------------------------------------- */
   promo: {
     active: true,
-    percent: 20,
-    label: "-20%",
+    percent: 10,
+    label: "-10%",
+    endDate: "2026-08-15T23:59:00",
   },
 
   /* ---------------------------------------------------------------
