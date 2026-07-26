@@ -224,18 +224,21 @@
     cube: "🧊",
   };
   $("#prestationsGrid").innerHTML = CFG.prestations
-    .map(
-      (p) => `
+    .map((p) => {
+      const visual = p.image
+        ? `<div class="app-visual"><img src="${p.image}" alt="${p.title}" loading="lazy"></div>`
+        : `<div class="app-visual"><span class="glyph">${icons[p.icon] || "✦"}</span></div>`;
+      return `
       <article class="card prestation-card tilt">
         ${promoBadge}
-        <div class="app-visual"><span class="glyph">${icons[p.icon] || "✦"}</span></div>
+        ${visual}
         <h3 class="card-title">${p.title}</h3>
         <p class="card-desc">${p.description}</p>
         <div class="prestation-price">${priceHTML(p.price)} <span style="font-size:.8rem;color:var(--text-dim)">${cur}</span></div>
         <div class="prestation-unit">${p.unit}</div>
         ${buyBtn("Commander", "Prestation : " + p.title, CFG.payment.prestationsUrl)}
-      </article>`
-    )
+      </article>`;
+    })
     .join("");
 
   /* ------------------------------------------------------------
