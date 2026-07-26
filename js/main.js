@@ -15,6 +15,20 @@
   const cur = CFG.brand.currency;
 
   /* ------------------------------------------------------------
+     PROMO : calcul du prix réduit + affichage barré/nouveau prix
+  ------------------------------------------------------------ */
+  const promoActive = !!(CFG.promo && CFG.promo.active);
+  const promoPct = promoActive ? CFG.promo.percent : 0;
+  const discounted = (price) => Math.round((price * (100 - promoPct)) / 100);
+  const priceHTML = (price) =>
+    promoActive
+      ? `<span class="price-old">${fmt(price)}</span><span class="price-new">${fmt(discounted(price))}</span>`
+      : `<span class="price-new">${fmt(price)}</span>`;
+  const promoBadge = promoActive
+    ? `<span class="promo-badge">${CFG.promo.label}</span>`
+    : "";
+
+  /* ------------------------------------------------------------
      MODALE D'ACHAT
   ------------------------------------------------------------ */
   const modal = $("#buyModal");
@@ -103,22 +117,41 @@
     .join("");
 
   /* ------------------------------------------------------------
+     RENDU : EQUIPE
+  ------------------------------------------------------------ */
+  $("#teamGrid").innerHTML = CFG.team
+    .map((m) => {
+      const visual = m.photo
+        ? `<img src="${m.photo}" alt="${m.name}, ${m.role}" loading="lazy">`
+        : `<span class="team-avatar-initial">${m.initial}</span>`;
+      return `
+      <article class="card team-card">
+        <div class="team-photo-wrap">${visual}</div>
+        <div class="team-name">${m.name}</div>
+        <div class="team-role">${m.role}</div>
+        <a class="team-contact" href="https://wa.me/${m.wa}" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </article>`;
+    })
+    .join("");
+
+  /* ------------------------------------------------------------
      RENDU : FORMATIONS
   ------------------------------------------------------------ */
   $("#formationsGrid").innerHTML = CFG.formations
     .map(
       (f) => `
       <article class="card formation-card tilt">
+        ${promoBadge}
         <h3 class="card-title">${f.title}</h3>
         <p class="card-desc">${f.desc}</p>
         <div class="formation-prices">
           <div class="price-pill">
             <span class="p-label">En ligne</span>
-            <span class="p-val">${fmt(f.online)}</span>
+            <span class="p-val">${priceHTML(f.online)}</span>
           </div>
           <div class="price-pill presentiel">
             <span class="p-label">Présentiel</span>
-            <span class="p-val">${fmt(f.presentiel)}</span>
+            <span class="p-val">${priceHTML(f.presentiel)}</span>
           </div>
         </div>
         ${buyBtn("S'inscrire", "Formation " + f.title, CFG.payment.formationsUrl)}
@@ -139,10 +172,11 @@
     .map(
       (p) => `
       <article class="card prestation-card tilt">
+        ${promoBadge}
         <div class="prestation-icon">${icons[p.icon] || "✦"}</div>
         <h3 class="card-title">${p.title}</h3>
         <p class="card-desc">${p.description}</p>
-        <div class="prestation-price">${fmt(p.price)} <span style="font-size:.8rem;color:var(--text-dim)">${cur}</span></div>
+        <div class="prestation-price">${priceHTML(p.price)} <span style="font-size:.8rem;color:var(--text-dim)">${cur}</span></div>
         <div class="prestation-unit">${p.unit}</div>
         ${buyBtn("Commander", "Prestation : " + p.title, CFG.payment.prestationsUrl)}
       </article>`
@@ -160,21 +194,22 @@
       // Pack sur devis : tarif unique ; sinon double prix En ligne / Présentiel
       const priceBlock = pack.devis
         ? `<div class="pack-price">
-             <span class="amount">${fmt(pack.online)}</span><span class="cur">${cur}</span>
+             <span class="amount">${priceHTML(pack.online)}</span><span class="cur">${cur}</span>
              <div class="prestation-unit" style="margin-top:6px">sur devis</div>
            </div>`
         : `<div class="formation-prices">
              <div class="price-pill">
                <span class="p-label">En ligne</span>
-               <span class="p-val">${fmt(pack.online)}</span>
+               <span class="p-val">${priceHTML(pack.online)}</span>
              </div>
              <div class="price-pill presentiel">
                <span class="p-label">Présentiel</span>
-               <span class="p-val">${fmt(pack.presentiel)}</span>
+               <span class="p-val">${priceHTML(pack.presentiel)}</span>
              </div>
            </div>`;
       return `
       <article class="card pack-card tilt ${pack.featured ? "featured" : ""}">
+        ${promoBadge}
         ${pack.featured ? '<span class="pack-badge">Populaire</span>' : ""}
         <h3 class="pack-name">${pack.name}</h3>
         <p class="pack-tagline">${pack.tagline}</p>
