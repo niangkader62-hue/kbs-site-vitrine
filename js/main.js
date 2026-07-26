@@ -182,9 +182,17 @@
   ------------------------------------------------------------ */
   $("#formationsGrid").innerHTML = CFG.formations
     .map((f) => {
-      const visual = f.image
-        ? `<div class="app-visual"><img src="${f.image}" alt="${f.title}" loading="lazy"></div>`
-        : `<div class="app-visual"><span class="glyph">${f.icon || f.title.charAt(0)}</span></div>`;
+      let visual;
+      if (f.image) {
+        visual = `<div class="app-visual"><img src="${f.image}" alt="${f.title}" loading="lazy"></div>`;
+      } else if (f.brandIcons) {
+        const logos = f.brandIcons
+          .map((slug) => `<img class="brand-logo" src="https://cdn.simpleicons.org/${slug}/1c1815" alt="${slug}">`)
+          .join("");
+        visual = `<div class="app-visual brand-visual">${logos}</div>`;
+      } else {
+        visual = `<div class="app-visual"><span class="glyph">${f.icon || f.title.charAt(0)}</span></div>`;
+      }
       return `
       <article class="card formation-card tilt">
         ${promoBadge}
