@@ -62,7 +62,7 @@ const KBS_CONFIG = {
   apps: [
     {
       title: "Gestion des Tontines",
-      category: "SaaS Financier",
+      category: "Gestion Financière",
       description:
         "Digitalisez vos tontines : suivi des cotisations, tours de bénéficiaires, rappels automatiques et transparence totale pour tous les membres.",
       features: ["Suivi des cotisations", "Rappels automatiques", "Tableau de bord clair"],
@@ -78,6 +78,24 @@ const KBS_CONFIG = {
       url: "https://kbsauto-io.netlify.app/",
       accent: "blue",
     },
+  ],
+
+  /* ---------------------------------------------------------------
+     4ter. PROMOTION EN COURS
+  --------------------------------------------------------------- */
+  promo: {
+    active: true,
+    percent: 20,
+    label: "-20%",
+  },
+
+  /* ---------------------------------------------------------------
+     4bis. EQUIPE
+  --------------------------------------------------------------- */
+  team: [
+    { name: "Kader Niang", role: "Fondateur & CEO", photo: "assets/team/kader.jpg", wa: "22376908031" },
+    { name: "Catherine", role: "Responsable Relation Client", photo: "assets/team/catherine.jpg", wa: "22372969093" },
+    { name: "Sacko", role: "Coordinateur & Direction Créative", initial: "S", wa: "22366847316" },
   ],
 
   /* ---------------------------------------------------------------
@@ -123,7 +141,7 @@ const KBS_CONFIG = {
       icon: "chat",
     },
     {
-      title: "SaaS / Application",
+      title: "Application Sur-Mesure",
       description: "Application web sur-mesure pensée pour automatiser et digitaliser votre activité.",
       price: 300000,
       unit: "à partir de",
@@ -191,7 +209,7 @@ const KBS_CONFIG = {
       online: 350000,
       devis: true,
       featured: false,
-      features: ["Application / SaaS sur-mesure", "Cahier des charges complet", "Développement & déploiement", "Maintenance incluse"],
+      features: ["Application sur-mesure", "Cahier des charges complet", "Développement & déploiement", "Maintenance incluse"],
     },
   ],
 
@@ -201,7 +219,7 @@ const KBS_CONFIG = {
   stats: [
     { value: "50+", label: "Projets livrés" },
     { value: "9", label: "Formations d'élite" },
-    { value: "2", label: "SaaS en production" },
+    { value: "2", label: "Applications en production" },
     { value: "100%", label: "Clients satisfaits" },
   ],
 };
