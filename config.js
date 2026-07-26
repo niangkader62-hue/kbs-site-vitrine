@@ -136,6 +136,7 @@ const KBS_CONFIG = {
       price: 100000,
       unit: "forfait",
       icon: "globe",
+      image: "https://images.unsplash.com/photo-1760670399462-f5e479452c27?w=800&q=70&auto=format&fit=crop",
     },
     {
       title: "Community Management",
@@ -143,6 +144,7 @@ const KBS_CONFIG = {
       price: 100000,
       unit: "par mois",
       icon: "chat",
+      image: "https://images.unsplash.com/photo-1759215524472-1b0686fdbd87?w=800&q=70&auto=format&fit=crop",
     },
     {
       title: "Application Sur-Mesure",
@@ -150,6 +152,7 @@ const KBS_CONFIG = {
       price: 300000,
       unit: "à partir de",
       icon: "cube",
+      image: "https://images.unsplash.com/photo-1760548425425-e42e77fa38f1?w=800&q=70&auto=format&fit=crop",
     },
   ],
 
