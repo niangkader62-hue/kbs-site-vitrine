@@ -181,10 +181,14 @@
      RENDU : FORMATIONS
   ------------------------------------------------------------ */
   $("#formationsGrid").innerHTML = CFG.formations
-    .map(
-      (f) => `
+    .map((f) => {
+      const visual = f.image
+        ? `<div class="app-visual"><img src="${f.image}" alt="${f.title}" loading="lazy"></div>`
+        : `<div class="app-visual"><span class="glyph">${f.icon || f.title.charAt(0)}</span></div>`;
+      return `
       <article class="card formation-card tilt">
         ${promoBadge}
+        ${visual}
         <h3 class="card-title">${f.title}</h3>
         <p class="card-desc">${f.desc}</p>
         <div class="formation-prices">
@@ -198,8 +202,8 @@
           </div>
         </div>
         ${buyBtn("S'inscrire", "Formation " + f.title, CFG.payment.formationsUrl)}
-      </article>`
-    )
+      </article>`;
+    })
     .join("");
 
   /* ------------------------------------------------------------
@@ -216,7 +220,7 @@
       (p) => `
       <article class="card prestation-card tilt">
         ${promoBadge}
-        <div class="prestation-icon">${icons[p.icon] || "✦"}</div>
+        <div class="app-visual"><span class="glyph">${icons[p.icon] || "✦"}</span></div>
         <h3 class="card-title">${p.title}</h3>
         <p class="card-desc">${p.description}</p>
         <div class="prestation-price">${priceHTML(p.price)} <span style="font-size:.8rem;color:var(--text-dim)">${cur}</span></div>
