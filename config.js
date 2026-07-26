@@ -108,12 +108,12 @@ const KBS_CONFIG = {
   formations: [
     { title: "Alibaba", desc: "Sourcing produits & import depuis la Chine.", online: 10000, presentiel: 20000, image: "https://images.unsplash.com/photo-1759272840712-c7e5ea852367?w=800&q=70&auto=format&fit=crop" },
     { title: "E-commerce", desc: "Lancer et scaler une boutique en ligne rentable.", online: 20000, presentiel: 35000, icon: "🛒" },
-    { title: "Intelligence Artificielle", desc: "Maîtriser l'IA pour booster votre productivité.", online: 20000, presentiel: 35000, image: "https://images.unsplash.com/photo-1737505599159-5ffc1dcbc08f?w=800&q=70&auto=format&fit=crop" },
+    { title: "Intelligence Artificielle", desc: "Maîtriser l'IA pour booster votre productivité.", online: 20000, presentiel: 35000, image: "https://images.unsplash.com/photo-1758521540744-83f97766e971?w=800&q=70&auto=format&fit=crop" },
     { title: "Montage vidéo CapCut", desc: "Montage vidéo pro pour réseaux sociaux.", online: 15000, presentiel: 25000, image: "https://images.unsplash.com/photo-1574717025179-0b6d03d4d86f?w=800&q=70&auto=format&fit=crop" },
-    { title: "Campagne publicitaire Meta/TikTok", desc: "Publicités rentables sur Facebook, Instagram & TikTok.", online: 25000, presentiel: 35000, icon: "📱" },
+    { title: "Campagne publicitaire Meta/TikTok", desc: "Publicités rentables sur Facebook, Instagram & TikTok.", online: 25000, presentiel: 35000, brandIcons: ["meta", "tiktok"] },
     { title: "Formation au Closing", desc: "L'art de vendre et convertir par téléphone.", online: 15000, presentiel: 25000, icon: "🤝" },
-    { title: "Monétisation TikTok + Boost", desc: "Générer des revenus et booster votre compte TikTok.", online: 15000, presentiel: 25000, icon: "🎵" },
-    { title: "Monétisation YouTube", desc: "Créer et monétiser une chaîne YouTube.", online: 10000, presentiel: 20000, icon: "▶️" },
+    { title: "Monétisation TikTok + Boost", desc: "Générer des revenus et booster votre compte TikTok.", online: 15000, presentiel: 25000, brandIcons: ["tiktok"] },
+    { title: "Monétisation YouTube", desc: "Créer et monétiser une chaîne YouTube.", online: 10000, presentiel: 20000, brandIcons: ["youtube"] },
     { title: "Création de contenu", desc: "Produire du contenu viral et engageant.", online: 15000, presentiel: 30000, icon: "✍️" },
   ],
 
