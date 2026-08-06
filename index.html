@@ -16,7 +16,7 @@
   <!-- Fonts : Poppins (display) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -86,17 +86,10 @@
       </div>
     </section>
 
-    <!-- ===================== APPS / SOLUTIONS ===================== -->
-    <section class="section" id="apps">
+    <!-- ============ PRODUIT PHARE : TONTINE (design sombre dédié) ============ -->
+    <section class="tontine-section" id="apps">
       <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">Solutions Logicielles</h2>
-          <p class="section-desc">
-            Des applications web en production, pensées pour digitaliser et automatiser
-            les métiers du quotidien.
-          </p>
-        </div>
-        <div class="apps-grid" id="appsGrid"></div>
+        <div class="tontine-panel" id="tontinePanel"><!-- rendu dynamique depuis config.js --></div>
       </div>
     </section>
 
@@ -197,6 +190,7 @@
     </div>
     <div class="footer-bottom">
       <span id="footerCopy"></span>
+      <a class="footer-team-link" id="footerTeamLink" target="_blank" rel="noopener"></a>
     </div>
   </footer>
 

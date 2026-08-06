@@ -139,25 +139,37 @@
     .join("");
 
   /* ------------------------------------------------------------
-     RENDU : APPS / SOLUTIONS
+     RENDU : PRODUIT PHARE — TONTINE (section dédiée, design sombre)
   ------------------------------------------------------------ */
-  $("#appsGrid").innerHTML = CFG.apps
-    .map((app) => {
-      const glyph = app.icon || app.title.charAt(0);
-      const tags = app.features.map((f) => `<span class="card-tag">${f}</span>`).join("");
-      return `
-      <article class="card app-card tilt">
-        <div class="app-visual"><span class="glyph">${glyph}</span></div>
-        <span class="card-cat">${app.category}</span>
-        <h3 class="card-title">${app.title}</h3>
-        <p class="card-desc">${app.description}</p>
-        <div class="card-tags">${tags}</div>
-        <a class="app-link" href="${app.url}" target="_blank" rel="noopener">
-          Découvrir l'application <span class="arrow">→</span>
+  const T = CFG.tontine;
+  if (T && $("#tontinePanel")) {
+    const logoBlock = T.logo
+      ? `<img class="tontine-logo-img" src="${T.logo}" alt="${T.name}" />`
+      : `<span class="tontine-logo-fallback">
+           <span class="tlf-mark">ht</span>
+           <span class="tlf-name">${T.name}</span>
+         </span>`;
+    const points = T.points
+      .map(
+        (p, i) =>
+          `<div class="tontine-card reveal-dark" style="--i:${i}">
+             <span class="tontine-card-icon">${p.icon}</span>
+             <span class="tontine-card-label">${p.label}</span>
+           </div>`
+      )
+      .join("");
+    $("#tontinePanel").innerHTML = `
+      <div class="tontine-main reveal-dark">
+        <span class="tontine-eyebrow">${T.eyebrow}</span>
+        <div class="tontine-logo">${logoBlock}</div>
+        <h2 class="tontine-title">${T.title}</h2>
+        <p class="tontine-benefit">${T.benefit}</p>
+        <a class="tontine-cta" href="${T.url}" target="_blank" rel="noopener">
+          ${T.cta} <span class="tontine-cta-arrow">↗</span>
         </a>
-      </article>`;
-    })
-    .join("");
+      </div>
+      <div class="tontine-points">${points}</div>`;
+  }
 
   /* ------------------------------------------------------------
      RENDU : EQUIPE
@@ -321,6 +333,13 @@
     .join("");
   $("#footerCopy").textContent = `© ${new Date().getFullYear()} ${CFG.brand.name}. Tous droits réservés.`;
 
+  // Accès discret à l'outil interne équipe (KBSAuto)
+  const teamLink = $("#footerTeamLink");
+  if (teamLink && CFG.teamApp) {
+    teamLink.textContent = CFG.teamApp.label;
+    teamLink.href = CFG.teamApp.url;
+  }
+
   /* ------------------------------------------------------------
      NAVBAR : scroll + menu mobile
   ------------------------------------------------------------ */
@@ -357,8 +376,8 @@
     },
     { threshold: 0.12 }
   );
-  $$(".reveal, .card").forEach((el, i) => {
-    el.style.setProperty("--i", i % 8);
+  $$(".reveal, .card, .reveal-dark").forEach((el, i) => {
+    if (!el.style.getPropertyValue("--i")) el.style.setProperty("--i", i % 8);
     io.observe(el);
   });
 

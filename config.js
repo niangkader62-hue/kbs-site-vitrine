@@ -57,30 +57,38 @@ const KBS_CONFIG = {
   },
 
   /* ---------------------------------------------------------------
-     4. SOLUTIONS LOGICIELLES (Applications)
+     4. PRODUIT PHARE — TONTINE (haby-tontine / THT)
+     Application EXTERNE destinée aux utilisateurs : mise en avant.
+     Pour afficher un vrai logo, renseignez `logo` avec le chemin du
+     fichier (ex. "assets/haby-tontine-logo.svg") ; sinon, un nom
+     stylisé est utilisé automatiquement en fallback.
   --------------------------------------------------------------- */
-  apps: [
-    {
-      title: "Gestion des Tontines",
-      category: "Gestion Financière",
-      description:
-        "Digitalisez vos tontines : suivi des cotisations, tours de bénéficiaires, rappels automatiques et transparence totale pour tous les membres.",
-      features: ["Suivi des cotisations", "Rappels automatiques", "Tableau de bord clair"],
-      url: "https://haby-tontine.pages.dev/",
-      icon: "🤝",
-      accent: "cyan",
-    },
-    {
-      title: "Gestion d'Entreprise",
-      category: "ERP / Gestion",
-      description:
-        "Pilotez votre entreprise depuis une seule interface : stocks, ventes, clients, factures et statistiques en temps réel.",
-      features: ["Stocks & ventes", "Facturation", "Statistiques en temps réel"],
-      url: "https://kbsauto-io.pages.dev/",
-      icon: "📊",
-      accent: "blue",
-    },
-  ],
+  tontine: {
+    name: "haby-tontine",
+    eyebrow: "Produit KBS · Application",
+    title: "Gérez vos tontines en toute confiance",
+    benefit:
+      "haby-tontine digitalise vos tontines de A à Z : cotisations suivies en temps réel, tours de bénéficiaires automatisés et transparence totale pour tous les membres.",
+    points: [
+      { icon: "💸", label: "Suivi des cotisations en temps réel" },
+      { icon: "🔄", label: "Tours & rappels automatisés" },
+      { icon: "🔒", label: "Transparence totale pour les membres" },
+    ],
+    cta: "OUVRIR L'APPLICATION",
+    url: "https://tontine.kbsdigitalagency.com",
+    logo: "", // chemin d'un fichier logo si disponible ; sinon fallback nom stylisé
+  },
+
+  /* ---------------------------------------------------------------
+     4quater. OUTIL INTERNE ÉQUIPE — KBSAuto (accès discret)
+     CRM / Kanban réservé à l'équipe, protégé par code.
+     N'est PAS présenté comme un produit client : simple lien sobre
+     dans le footer.
+  --------------------------------------------------------------- */
+  teamApp: {
+    label: "Connexion Équipe",
+    url: "https://app.kbsdigitalagency.com",
+  },
 
   /* ---------------------------------------------------------------
      4ter. PROMOTION EN COURS

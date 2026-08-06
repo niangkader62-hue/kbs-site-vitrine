@@ -774,7 +774,183 @@ img { max-width: 100%; display: block; }
 }
 
 /* Accessibilité : réduction du mouvement */
+/* =====================================================================
+   SECTION PRODUIT — TONTINE (haby-tontine)
+   Design system SOMBRE, appliqué UNIQUEMENT à cette section pour la
+   distinguer du reste du site (terracotta). Ne pas propager ailleurs.
+   ===================================================================== */
+.tontine-section {
+  /* Le crème de la page reste visible autour du panneau → transition douce */
+  background: var(--bg);
+  padding: 48px 0;
+  --t-bg: #0B0F14;
+  --t-block: #111827;
+  --t-text: #E5E7EB;
+  --t-muted: #9aa3b2;
+  --t-accent: #FF6B35;
+}
+.tontine-panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px;
+  align-items: center;
+  background: var(--t-bg);
+  color: var(--t-text);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 32px;
+  padding: 56px 52px;
+  box-shadow: 0 40px 90px -40px rgba(11, 15, 20, 0.55);
+  overflow: hidden;
+}
+/* Lueur d'accent discrète en fond du panneau */
+.tontine-panel::before {
+  content: "";
+  position: absolute;
+  top: -30%; right: -10%;
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(255, 107, 53, 0.16), transparent 65%);
+  pointer-events: none;
+}
+.tontine-main { position: relative; z-index: 1; }
+
+.tontine-eyebrow {
+  display: inline-block;
+  font-family: "Space Grotesk", "Inter", sans-serif;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--t-accent);
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 107, 53, 0.35);
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+.tontine-logo { margin-bottom: 22px; }
+.tontine-logo-img { height: 48px; width: auto; }
+.tontine-logo-fallback { display: inline-flex; align-items: center; gap: 12px; }
+.tlf-mark {
+  display: grid; place-items: center;
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--t-accent), #ff8c5a);
+  color: #0B0F14;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.tlf-name {
+  font-family: "Space Grotesk", "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--t-text);
+  letter-spacing: -0.01em;
+}
+.tontine-title {
+  font-family: "Space Grotesk", "Inter", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--t-text);
+  margin-bottom: 16px;
+}
+.tontine-benefit {
+  font-family: "Inter", sans-serif;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--t-muted);
+  max-width: 52ch;
+  margin-bottom: 32px;
+}
+/* GROS CTA */
+.tontine-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Space Grotesk", "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: 0.02em;
+  color: #0B0F14;
+  background: var(--t-accent);
+  padding: 17px 32px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px -10px rgba(255, 107, 53, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.tontine-cta:hover {
+  transform: scale(1.03);
+  background: #ff7d47;
+  box-shadow: 0 18px 40px -10px rgba(255, 107, 53, 0.65);
+}
+.tontine-cta:active { transform: scale(0.99); }
+.tontine-cta-arrow { font-size: 1.1rem; transition: transform 0.3s ease; }
+.tontine-cta:hover .tontine-cta-arrow { transform: translate(2px, -2px); }
+
+/* Cartes de points (blocs secondaires) */
+.tontine-points { display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 1; }
+.tontine-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--t-block);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 20px 22px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.tontine-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 107, 53, 0.4);
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.7);
+}
+.tontine-card-icon {
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: rgba(255, 107, 53, 0.12);
+  font-size: 1.3rem;
+}
+.tontine-card-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.96rem;
+  font-weight: 500;
+  color: var(--t-text);
+}
+
+/* Apparition au scroll (fade-in + translateY 20px, 0.6s) — scoped */
+.tontine-section .reveal-dark { opacity: 0; transform: translateY(20px); }
+.tontine-section .reveal-dark.in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: calc(var(--i, 0) * 0.08s);
+}
+
+/* Lien discret « Connexion Équipe » dans le footer */
+.footer-team-link {
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  text-decoration: none;
+  opacity: 0.75;
+  transition: color 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+.footer-team-link:hover { color: var(--terra); opacity: 1; }
+.footer-bottom { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+@media (max-width: 768px) {
+  .tontine-panel { grid-template-columns: 1fr; gap: 32px; padding: 40px 26px; border-radius: 24px; }
+  .tontine-section { padding: 40px 0; }
+  .tontine-cta { width: 100%; justify-content: center; }
+}
+
+/* =====================================================================
+   Accessibilité : réduction du mouvement
+   ===================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  .reveal, .card { opacity: 1; transform: none; }
+  .reveal, .card, .reveal-dark { opacity: 1; transform: none; }
 }
