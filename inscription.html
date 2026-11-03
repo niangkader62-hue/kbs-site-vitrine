@@ -54,8 +54,24 @@
             border-color: #f97316;
             box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
         }
+        /* Modules / bénéfices qui défilent un à un */
+        .module-ticker { display: grid; }
+        .module-item {
+            grid-area: 1 / 1;
+            display: flex; align-items: flex-start; gap: .5rem;
+            opacity: 0; transform: translateY(14px);
+            transition: opacity .45s ease, transform .45s ease;
+            pointer-events: none;
+        }
+        .module-item.is-active { opacity: 1; transform: translateY(0); }
+        .module-item.is-leaving { opacity: 0; transform: translateY(-14px); }
+        .module-dot { width: 6px; height: 6px; border-radius: 9999px; background: #fed7aa; transition: all .35s ease; }
+        .module-dot.is-active { width: 16px; background: #f97316; }
+        .module-check { animation: pop .45s ease; }
+        @keyframes pop { 0% { transform: scale(.4); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
         @media (prefers-reduced-motion: reduce) {
-            .animate-pulse { animation: none; }
+            .animate-pulse, .module-check { animation: none; }
+            .module-item { transition: opacity .2s linear; transform: none !important; }
         }
     </style>
 </head>
@@ -96,9 +112,6 @@
                     <div class="bg-orange-50/70 px-4 py-2.5 text-xs sm:text-sm text-slate-700 font-medium">
                         Places strictement limitées à <span class="font-bold text-slate-900">10 personnes par formation</span>. Après l'offre, les prix reviennent au tarif normal.
                     </div>
-                </div>
-                <div id="launchEnded" class="hidden mt-4 p-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-xs sm:text-sm text-slate-600 font-medium">
-                    L'offre de lancement est terminée. Les inscriptions restent ouvertes au tarif normal.
                 </div>
             </div>
 
@@ -281,9 +294,11 @@
         // URL Webhook Google Apps Script (Google Sheets). Laisser vide si non déployé.
         const GOOGLE_SHEETS_SCRIPT_URL = "";
 
-        // Fin de l'offre de lancement (48 h). Heure de Bamako (GMT).
-        // Après cette date, les prix normaux s'affichent automatiquement.
-        const LAUNCH_END = "2026-11-05T23:59:00Z";
+        // Offre de lancement en boucle : le compte à rebours dure 48 h,
+        // puis redémarre tout seul à zéro pour 48 h, et ainsi de suite.
+        // CYCLE_START = début du premier cycle (heure de Bamako / GMT).
+        const CYCLE_START = "2026-11-03T23:59:00Z";
+        const CYCLE_HOURS = 48;
 
         // Formations et prix (FCFA)
         const FORMATIONS = [
@@ -293,6 +308,14 @@
                 subtitle: "ChatGPT + Google Flow Automation",
                 badge: "Populaire", badgeClass: "bg-slate-100 text-slate-600",
                 price: 25000, launchPrice: 17500,
+                modulesLabel: "Module",
+                modules: [
+                    "Automatisation des processus & tunnels de vente",
+                    "Motion design & création de contenus visuels",
+                    "Campagnes publicitaires pilotées par l'IA",
+                    "Closing & stratégies de vente avec l'IA",
+                    "Monétisation de vos comptes (TikTok, etc.)",
+                ],
             },
             {
                 id: "f2",
@@ -300,6 +323,14 @@
                 subtitle: "Sites web et apps sans coder (Glide, Supabase)",
                 badge: "No-Code", badgeClass: "bg-blue-50 text-blue-600",
                 price: 75000, launchPrice: 49500,
+                modulesLabel: "Étape",
+                modules: [
+                    "De l'idée à la conception de votre projet",
+                    "Création de sites web intelligents avec l'IA",
+                    "Création d'applications mobiles",
+                    "Hébergement & mise en ligne (déploiement)",
+                    "Accompagnement pour décrocher votre premier client",
+                ],
             },
             {
                 id: "pack",
@@ -307,6 +338,14 @@
                 subtitle: "Les 2 formations + Mentoring VIP",
                 badge: "RECOMMANDÉ", badgeClass: "bg-brand-500 text-white animate-pulse",
                 price: 100000, launchPrice: 65000, highlight: true,
+                modulesLabel: "Inclus",
+                modules: [
+                    "Tout le parcours 1 : vendre avec l'IA",
+                    "Tout le parcours 2 : sites & applications",
+                    "Motion design, pubs IA & closing",
+                    "Votre site ou app hébergé et en ligne",
+                    "Mentoring VIP & aide pour le premier client",
+                ],
             },
         ];
 
@@ -363,8 +402,14 @@
         const $ = (id) => document.getElementById(id);
         const flag = (iso) => iso.replace(/./g, c => String.fromCodePoint(127397 + c.charCodeAt(0)));
         const fcfa = (n) => n.toLocaleString("fr-FR").replace(/ | /g, " ") + " FCFA";
-        const launchEnd = new Date(LAUNCH_END).getTime();
-        const isLaunch = () => Date.now() < launchEnd;
+        const CYCLE_MS = CYCLE_HOURS * 3600 * 1000;
+        const cycleStart = new Date(CYCLE_START).getTime();
+        // Fin du cycle de 48 h en cours (recalculée en continu)
+        const currentEnd = () => {
+            const n = Math.max(1, Math.ceil((Date.now() - cycleStart) / CYCLE_MS));
+            return cycleStart + n * CYCLE_MS;
+        };
+        const isLaunch = () => true; // l'offre redémarre toujours : prix de lancement affiché en permanence
         const priceOf = (f) => isLaunch() ? f.launchPrice : f.price;
         const countryByIso = Object.fromEntries(COUNTRIES.map(c => [c[0], c]));
 
@@ -412,6 +457,19 @@
                             <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-bold whitespace-nowrap ${f.badgeClass}">${f.badge}</span>
                         </div>
                         <p class="text-xs text-slate-500 mt-0.5">${f.subtitle}</p>
+                        <div class="mt-2.5 rounded-xl bg-orange-50/80 border border-orange-100 px-3 py-2">
+                            <div class="module-ticker text-xs font-semibold text-slate-800" data-ticker="${f.id}">
+                                ${f.modules.map((m, k) => `
+                                <div class="module-item${k === 0 ? " is-active" : ""}">
+                                    <span class="module-check shrink-0 mt-px w-4 h-4 rounded-full bg-brand-500 text-white grid place-items-center text-[10px] font-black">✓</span>
+                                    <span class="min-w-0"><span class="text-brand-600 font-extrabold">${f.modulesLabel} ${k + 1}/${f.modules.length} ·</span> ${m}</span>
+                                </div>`).join("")}
+                            </div>
+                            <div class="flex gap-1 mt-2" aria-hidden="true">
+                                ${f.modules.map((_, k) => `<span class="module-dot${k === 0 ? " is-active" : ""}"></span>`).join("")}
+                            </div>
+                            <ul class="sr-only">${f.modules.map(m => `<li>${m}</li>`).join("")}</ul>
+                        </div>
                         <div class="mt-2.5 flex items-end justify-between gap-2 flex-wrap">
                             <div class="flex items-baseline gap-2 tabular">
                                 <span class="text-lg font-extrabold text-slate-900">${fcfa(priceOf(f))}</span>
@@ -436,27 +494,39 @@
             $("summaryOld").textContent = isLaunch() ? fcfa(f.price) : "";
         }
 
-        // --- Compte à rebours ---
-        let wasLaunch = isLaunch();
+        // --- Compte à rebours (redémarre seul toutes les 48 h) ---
         function tick() {
-            const left = launchEnd - Date.now();
-            if (left <= 0) {
-                $("launchBanner").classList.add("hidden");
-                $("launchEnded").classList.remove("hidden");
-                if (wasLaunch) {
-                    wasLaunch = false;
-                    const keep = document.querySelector('input[name="formation"]:checked')?.value;
-                    buildFormations();
-                    if (keep) $("formation-" + keep).checked = true;
-                    updateSummary();
-                }
-                return;
-            }
+            const left = Math.max(0, currentEnd() - Date.now());
             const pad = (n) => String(n).padStart(2, "0");
             const s = Math.floor(left / 1000);
             $("cdH").textContent = pad(Math.floor(s / 3600));
             $("cdM").textContent = pad(Math.floor((s % 3600) / 60));
             $("cdS").textContent = pad(s % 60);
+        }
+
+        // --- Modules qui défilent un à un ---
+        function startTickers() {
+            document.querySelectorAll("[data-ticker]").forEach((ticker, t) => {
+                const items = ticker.querySelectorAll(".module-item");
+                const dots = ticker.parentElement.querySelectorAll(".module-dot");
+                const hidden = ticker.parentElement.querySelector(".sr-only");
+                if (hidden) ticker.setAttribute("aria-hidden", "true");
+                let i = 0;
+                const next = () => {
+                    const prev = items[i];
+                    prev.classList.remove("is-active");
+                    prev.classList.add("is-leaving");
+                    setTimeout(() => prev.classList.remove("is-leaving"), 450);
+                    dots[i].classList.remove("is-active");
+                    i = (i + 1) % items.length;
+                    items[i].classList.add("is-active");
+                    dots[i].classList.add("is-active");
+                    const check = items[i].querySelector(".module-check");
+                    check.style.animation = "none"; void check.offsetWidth; check.style.animation = "";
+                };
+                // départs décalés pour que les cartes ne changent pas toutes en même temps
+                setTimeout(() => setInterval(next, 2800), 900 * t);
+            });
         }
 
         // --- Envoi ---
@@ -532,6 +602,7 @@
         // --- Démarrage ---
         buildCountries();
         buildFormations();
+        startTickers();
         tick();
         setInterval(tick, 1000);
         $("registrationForm").addEventListener("submit", handleFormSubmit);
