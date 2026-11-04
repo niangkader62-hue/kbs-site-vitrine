@@ -565,7 +565,7 @@
                             date: new Date().toLocaleString("fr-FR"),
                             nom: fullName,
                             pays: countryName,
-                            telephone: fullPhone,
+                            telephone: `00${dial} ${phone}`, // sans "+" : Google Sheets le prendrait pour une formule
                             formation: f.title,
                             prix: price,
                             paiement: paymentMethod,
